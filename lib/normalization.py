@@ -13,6 +13,7 @@ from nltk.stem import WordNetLemmatizer
 from html.parser import HTMLParser
 import unicodedata
 from tqdm.auto import tqdm
+import html
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -21,7 +22,7 @@ nltk.download('punkt')
 stopword_list = nltk.corpus.stopwords.words('english')
 
 wnl = WordNetLemmatizer()
-html_parser = HTMLParser()
+html_parser = html.parser.HTMLParser()
 
 def tokenize_text(text):
     tokens = nltk.word_tokenize(text)
@@ -111,9 +112,8 @@ def keep_text_characters(text):
     filtered_text = ' '.join(filtered_tokens)
     return filtered_text
 
-def unescape_html(parser, text):
-
-    return parser.unescape(text)
+def unescape_html(text):
+    return html.unescape(text)
 
 
 def normalize_corpus(corpus, lemmatize=True,
