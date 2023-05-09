@@ -37,20 +37,20 @@ class Categorize:
 
     def create_transactions(self, df, col):
 
-        df[col]     = df[col].astype(str).dropna()
-        queries       = df[col].tolist()
+        df[col] = df[col].astype(str).dropna()
+        queries = df[col].tolist()
 
         # normalize corpus
         print("Normalizing the keyword corpus.")
         norm_queries = normalize_corpus(queries, lemmatize=True, only_text_chars=True, sort_text=True)
-        match_queries = norm_queries
+        match_queries = norm_queries.copy()  # Create a copy of norm_queries for matching
+
+        print('Total queries:', len(norm_queries))
+
+        # Remove duplicates from norm_queries for transaction creation
         norm_queries = list(set(norm_queries))
 
-        print('Total queries:', len(match_queries))
-        print('Total unique queries:', len(norm_queries))
-
         transactions = []
-
         for query in norm_queries:
             if len(query):
                 transactions.append(query.split(' '))
@@ -58,6 +58,7 @@ class Categorize:
         print('Total transactions:', len(transactions))
 
         return transactions, match_queries
+
 
 
 
